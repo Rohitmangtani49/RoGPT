@@ -59,7 +59,7 @@ class Agent:
         self.db = None
         self.chain = None
         self.chat_history = []
-        self.conversation_history = [{"role": "system", "content": "Answer the users question"}]
+        self.conversation_history = [{"role": "system", "content": "Answer the users question using the referenced information only. You are only trained on this dataset"}]
 
     def generate_response(self, messages: List[Dict[str, str]], temp: float) -> str:
         chat = openai.ChatCompletion.create(
