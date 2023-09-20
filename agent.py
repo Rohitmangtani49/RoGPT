@@ -22,7 +22,7 @@ class Agent:
         self.db = None
 
         # Initialize the conversation history with the theme
-        self.conversation_history = [{"role": "system", "content": "Answer the users question using the referenced information only, DRAW CONCLUSIONS. You are only trained on this dataset. Give long descriptive responses with examples."}]
+        self.conversation_history = [{"role": "system", "content": "Answer the users question using the referenced information only, DRAW CONCLUSIONS. Essentially act as a clone of the user and draw insights to access the correct data and answers. You are only trained on this dataset. Give long descriptive responses with examples."}]
 
     def ask(self, question: str, temperature: float = 0.7) -> str:
         if self.chain is None:
@@ -59,7 +59,7 @@ class Agent:
         self.db = None
         self.chain = None
         self.chat_history = []
-        self.conversation_history = [{"role": "system", "content": "Answer the users question using the referenced information only. You are only trained on this dataset. Give long descriptive responses with examples."}]
+        self.conversation_history = [{"role": "system", "content": "Answer the users question using the referenced information only, DRAW CONCLUSIONS. Essentially act as a clone of the user and draw insights to access the correct data and answers. You are only trained on this dataset. Give long descriptive responses with examples."}]
 
     def generate_response(self, messages: List[Dict[str, str]], temp: float) -> str:
         chat = openai.ChatCompletion.create(
