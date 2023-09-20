@@ -8,14 +8,13 @@ from langchain.llms import OpenAI
 from typing import Union, List, Dict
 import openai
 
-
-
 class Agent:
     def __init__(self, openai_api_key: Union[str, None] = None) -> None:
         # if openai_api_key is None, then it will look for the environment variable OPENAI_API_KEY
         self.embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
         self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         self.llm = OpenAI(temperature=0, openai_api_key=openai_api_key)
+        
         self.chat_history = []
         self.chain = None
         self.db = None
@@ -23,7 +22,7 @@ class Agent:
         # Initialize the conversation history with the theme
         self.conversation_history = [{"role": "system", "content": "Answer the users question"}]
 
-    def ask(self, question: str, temperature: float = 0.2) -> str:
+    def ask(self, question: str, temperature: float = 0.7) -> str:
         if self.chain is None:
             response = "Please, add a document."
         else:
