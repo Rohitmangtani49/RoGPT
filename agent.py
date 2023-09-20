@@ -22,7 +22,7 @@ class Agent:
         self.db = None
 
         # Initialize the conversation history with the theme
-        self.conversation_history = [{"role": "system", "content": "Answer the users question using the referenced information only. You are only trained on this dataset"}]
+        self.conversation_history = [{"role": "system", "content": "Answer the users question using the referenced information only. You are only trained on this dataset. Give long descriptive responses with examples."}]
 
     def ask(self, question: str, temperature: float = 0.7) -> str:
         if self.chain is None:
@@ -59,7 +59,7 @@ class Agent:
         self.db = None
         self.chain = None
         self.chat_history = []
-        self.conversation_history = [{"role": "system", "content": "Answer the users question using the referenced information only. You are only trained on this dataset"}]
+        self.conversation_history = [{"role": "system", "content": "Answer the users question using the referenced information only. You are only trained on this dataset. Give long descriptive responses with examples."}]
 
     def generate_response(self, messages: List[Dict[str, str]], temp: float) -> str:
         chat = openai.ChatCompletion.create(
@@ -77,7 +77,7 @@ class Agent:
         chain_response = self.chain({"question": user_text, "chat_history": self.chat_history})
         return chain_response["answer"].strip()
 
-    def ask_with_context(self, user_text: str, extracted_info: str, temperature: float = 0.7) -> str:
+    def ask_with_context(self, user_text: str, extracted_info: str, temperature: float = 0.3) -> str:
         # Craft a new prompt for GPT-3.5 using the user's question and the extracted information
         refined_question = f"{user_text} (Based on the document: {extracted_info})"
         
