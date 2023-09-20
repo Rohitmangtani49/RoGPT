@@ -63,7 +63,7 @@ class Agent:
 
     def generate_response(self, messages: List[Dict[str, str]], temp: float) -> str:
         chat = openai.ChatCompletion.create(
-            model="gpt-4-0613",
+            model="gpt-3.5-turbo-16k-0613",
             messages=messages,
             n=1,
             stop=None,
