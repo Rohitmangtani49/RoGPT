@@ -9,10 +9,11 @@ from typing import Union, List, Dict
 import openai
 
 class Agent:
-    def __init__(self, openai_api_key: Union[str, None] = None) -> None:
-        # if openai_api_key is None, then it will look for the environment variable OPENAI_API_KEY
+    def __init__(self, openai_api_key: str | None = None) -> None:
+        # if openai_api_key is None, then it will look the enviroment variable OPENAI_API_KEY
         self.embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
         self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+
         self.llm = OpenAI(temperature=0, openai_api_key=openai_api_key)
         
         self.chat_history = []
