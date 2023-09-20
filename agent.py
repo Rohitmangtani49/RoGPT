@@ -71,3 +71,22 @@ class Agent:
         )
         reply = chat.choices[0].message['content']
         return reply
+    def extract_from_pdf(self, user_text: str) -> str:
+        # Search the ingested PDFs for relevant information based on the user's question
+        # For simplicity, we'll use the chain to retrieve a response
+        chain_response = self.chain({"question": user_text, "chat_history": self.chat_history})
+        return chain_response["answer"].strip()
+
+    def ask_with_context(self, user_text: str, extracted_info: str, temperature: float = 0.7) -> str:
+        # Craft a new prompt for GPT-3.5 using the user's question and the extracted information
+        refined_question = f"{user_text} (Based on the document: {extracted_info})"
+        
+        # Add the refined question to the conversation history
+        self.conversation_history.append({"role": "user", "content": refined_question})
+        
+        # Now, get the response using the OpenAI model
+        response = self.generate_response(self.conversation_history, temperature)
+        
+        # Update the chat history
+        self.chat_history.append((refined_question, response))
+        return response

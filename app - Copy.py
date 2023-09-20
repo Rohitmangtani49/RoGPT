@@ -6,24 +6,23 @@ from agent import Agent
 
 st.set_page_config(page_title="ChatPDF")
 
+
 def display_messages():
     st.subheader("Chat")
     for i, (msg, is_user) in enumerate(st.session_state["messages"]):
         message(msg, is_user=is_user, key=str(i))
     st.session_state["thinking_spinner"] = st.empty()
 
+
 def process_input():
     if st.session_state["user_input"] and len(st.session_state["user_input"].strip()) > 0:
         user_text = st.session_state["user_input"].strip()
         with st.session_state["thinking_spinner"], st.spinner(f"Thinking"):
-            # Extract relevant information from the PDF
-            extracted_info = st.session_state["agent"].extract_from_pdf(user_text)
-            
-            # Use the extracted information to craft a prompt for GPT-3.5
-            agent_text = st.session_state["agent"].ask_with_context(user_text, extracted_info)
+            agent_text = st.session_state["agent"].ask(user_text)
 
         st.session_state["messages"].append((user_text, True))
         st.session_state["messages"].append((agent_text, False))
+
 
 def read_and_save_file():
     st.session_state["agent"].forget()  # to reset the knowledge base
@@ -39,8 +38,10 @@ def read_and_save_file():
             st.session_state["agent"].ingest(file_path)
         os.remove(file_path)
 
+
 def is_openai_api_key_set() -> bool:
     return len(st.session_state["OPENAI_API_KEY"]) > 0
+
 
 def main():
     if len(st.session_state) == 0:
@@ -82,7 +83,6 @@ def main():
     st.text_input("Message", key="user_input", disabled=not is_openai_api_key_set(), on_change=process_input)
 
     st.divider()
-    st.markdown("Source code: [Github](https://github.com/viniciusarruda/chatpdf)")
 
 if __name__ == "__main__":
     main()
