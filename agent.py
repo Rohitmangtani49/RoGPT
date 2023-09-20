@@ -3,9 +3,9 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import FAISS
+
 from langchain.chains import ConversationalRetrievalChain
 from langchain.llms import OpenAI
-from typing import Union, List, Dict
 import openai
 
 class Agent:
@@ -13,10 +13,11 @@ class Agent:
         # if openai_api_key is None, then it will look the enviroment variable OPENAI_API_KEY
         self.embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
         self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-
+        if openai_api_key:
+            openai.api_key = openai_api_key
         self.llm = OpenAI(temperature=0, openai_api_key=openai_api_key)
-        
-        self.chat_history = []
+
+        self.chat_history = None
         self.chain = None
         self.db = None
 
