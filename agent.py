@@ -22,7 +22,7 @@ class Agent:
         self.db = None
 
         # Initialize the conversation history with the theme
-        self.conversation_history = [{"role": "system", "content": "Answer the users question"}]
+        self.conversation_history = [{"role": "system", "content": "Answer the users question using the referenced information only. You are only trained on this dataset"}]
 
     def ask(self, question: str, temperature: float = 0.7) -> str:
         if self.chain is None:
