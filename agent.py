@@ -3,9 +3,9 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import FAISS
-
 from langchain.chains import ConversationalRetrievalChain
 from langchain.llms import OpenAI
+from typing import Union, List, Dict
 import openai
 
 class Agent:
